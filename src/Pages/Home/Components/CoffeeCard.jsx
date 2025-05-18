@@ -3,7 +3,7 @@ import { FaPen, FaRegEye, FaTrash } from "react-icons/fa";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
 
-const CoffeeCard = ({ coffee }) => {
+const CoffeeCard = ({ coffee, coffees, setCoffees }) => {
   const { name, photo, quantity, taste, _id, supplier, details, price } =
     coffee;
 
@@ -28,6 +28,8 @@ const CoffeeCard = ({ coffee }) => {
               text: "Your coffee has been deleted",
               icon: "success",
             });
+            const remainingcoffees = coffees.filter((cof) => cof._id !== _id);
+            setCoffees(remainingcoffees);
           }
         })
         .catch((err) => console.log(err));

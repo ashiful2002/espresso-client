@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 
 const AddCoffee = () => {
+  const navigate  = useNavigate()
   const handleAddCoffee = (e) => {
     e.preventDefault();
 
@@ -22,7 +24,7 @@ const AddCoffee = () => {
     //   details,
     //   photo,
     // };
-
+    //  amader desher name bangladesh
     const form = e.target;
     const formData = new FormData(form);
     const newCoffee = Object.fromEntries(formData.entries());
@@ -46,6 +48,8 @@ const AddCoffee = () => {
         }
         console.log(data);
         form.reset();
+        navigate("/")
+
       });
   };
   return (
