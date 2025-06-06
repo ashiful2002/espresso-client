@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const SignUp = () => {
   const { createUser } = useContext(AuthContext);
-
   const handleSignUp = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -17,31 +17,34 @@ const SignUp = () => {
 
     createUser(email, password)
       .then((userCredencial) => {
-        console.log(userCredencial.user);
-
+        // console.log(userCredencial.user);
         // make user profile
-
         const userProfile = {
           email,
           ...restFormData,
           creationTime: userCredencial.user?.metadata?.creationTime,
           lastSignInTime: userCredencial.user?.metadata?.lastSignInTime,
         };
-        //  save profile info in db
 
-        fetch("http://localhost:3000/users", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(userProfile),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log("after profile saved", data);
-          });
+        // axios
 
-       
+        axios.get("http://localhost:3000/users", userProfile).then((data) => {
+          console.log(data.data);
+          alert("data added");
+        });
+
+        // save profile info in db useing fetch
+        //   fetch("http://localhost:3000/users", {
+        //     method: "POST",
+        //     headers: {
+        //       "content-type": "application/json",
+        //     },
+        //     body: JSON.stringify(userProfile),
+        //   })
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //       console.log("after profile saved", data);
+        //     });
       })
       .catch((err) => {
         console.log(err, "firebase error");
@@ -125,32 +128,30 @@ const SignUp = () => {
 
 export default SignUp;
 
+// const userProfile = {
+//   email,
+//   ...restFormData,
+//   creationTime: result.user?.metadata?.creationTime,
+//   lastSignInTime: result.user?.metadata?.lastSignInTime,
+// };
 
-
- // const userProfile = {
-        //   email,
-        //   ...restFormData,
-        //   creationTime: result.user?.metadata?.creationTime,
-        //   lastSignInTime: result.user?.metadata?.lastSignInTime,
-        // };
-
-        // Save user to backend
-        // fetch("http://localhost:3000/users", {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        //   body: JSON.stringify(userProfile),
-        // })
-        // .then((res) => res.json())
-        // .then((data) => {
-        //   if (data.insertedId) {
-        //     Swal.fire({
-        //       title: "Good job!",
-        //       text: "User added successfully!",
-        //       icon: "success",
-        //     });
-        //     console.log("Saved user:", data);
-        //   }
-        // })
-        // .catch((err) => console.error("Save error:", err));
+// Save user to backend
+// fetch("http://localhost:3000/users", {
+//   method: "POST",
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+//   body: JSON.stringify(userProfile),
+// })
+// .then((res) => res.json())
+// .then((data) => {
+//   if (data.insertedId) {
+//     Swal.fire({
+//       title: "Good job!",
+//       text: "User added successfully!",
+//       icon: "success",
+//     });
+//     console.log("Saved user:", data);
+//   }
+// })
+// .catch((err) => console.error("Save error:", err));

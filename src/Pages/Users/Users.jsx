@@ -62,7 +62,7 @@ const Users = () => {
   };
   return (
     <div>
-      <h1>users: {users.length}</h1>
+      <h1>users: {users && users.length}</h1>
       <div>
         <div className="overflow-x-auto">
           <table className="table">
@@ -77,7 +77,7 @@ const Users = () => {
             </thead>
             <tbody>
               {/* row 1 */}
-              {users.map((user) => (
+              {users &&users.map((user) => (
                 <tr key={user._id}>
                   <td>
                     <div className="flex items-center gap-3">
